@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Für dich ❤️</title>
+
+<style>
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #07070d;
+        color: white;
+        overflow-x: hidden;
+    }
+
+    /* =====================================
+       HINTERGRUND
+    ===================================== */
+
+    .background {
+        position: fixed;
+        inset: 0;
+        z-index: -5;
+
+        background:
+            radial-gradient(
+                circle at 20% 20%,
+                rgba(255, 60, 130, 0.18),
+                transparent 35%
+            ),
+            radial-gradient(
+                circle at 80% 80%,
+                rgba(150, 60, 255, 0.16),
+                transparent 35%
+            ),
+            #07070d;
+    }
+
+    .stars {
+        position: fixed;
+        inset: 0;
+        z-index: -4;
+        pointer-events: none;
+    }
+
+    .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+
+        background: white;
+
+        border-radius: 50%;
+
+        animation:
+            twinkle
+            var(--duration)
+            infinite ease-in-out;
+    }
+
+    @keyframes twinkle {
+
+        0%, 100% {
+            opacity: 0.15;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 1;
+            transform: scale(1.8);
+        }
+    }
+
+
+    /* =====================================
+       INTRO SCREEN
+    ===================================== */
+
+    #intro {
+        position: fixed;
+        inset: 0;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        text-align: center;
+
+        background:
+            radial-gradient(
+                circle at center,
+                rgba(255, 65, 130, 0.12),
+                transparent 50%
+            ),
+            #07070d;
+
+        z-index: 50;
+
+        transition:
+            opacity 1.2s ease,
+            visibility 1.2s ease;
+    }
+
+    #intro.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+    .intro-content {
+        width: 90%;
+        max-width: 800px;
+    }
+
+    .intro-small {
+        font-size: 0.9rem;
+
+        text-transform: uppercase;
+        letter-spacing: 5px;
+
+        color: #ff7ba9;
+
+        margin-bottom: 25px;
+
+        animation: introFade 2s ease;
+    }
+
+    .intro-name {
+        font-size: clamp(3.5rem, 10vw, 8rem);
+
+        font-weight: 700;
+
+        background:
+            linear-gradient(
+                90deg,
+                #ff5c96,
+                #ffb4cf,
+                #c77cff
+            );
+
+        -webkit-background-clip: text;
+        background-clip: text;
+
+        color: transparent;
+
+        line-height: 1.35;
+
+        animation:
+            introName
+            2s
+            ease;
+    }
+
+    .intro-message {
+        margin-top: 30px;
+
+        font-size: clamp(1.1rem, 3vw, 1.5rem);
+
+        color: #ddd;
+
+        line-height: 1.7;
+
+        animation:
+            introFade
+            3s
+            ease;
+    }
+
+    .intro-heart {
+        font-size: 4rem;
+
+        margin: 25px;
+
+        animation:
+            heartbeat
+            1.5s
+            infinite;
+    }
+
+
+    /* =====================================
+       COUNTDOWN
+    ===================================== */
+
+    .countdown {
+        display: flex;
+
+        justify-content: center;
+
+        gap: 15px;
+
+        margin: 30px 0;
+    }
+
+    .time-box {
+        min-width: 75px;
+
+        padding: 15px 10px;
+
+        border-radius: 15px;
+
+        background:
+            rgba(255,255,255,0.05);
+
+        border:
+            1px solid
+            rgba(255,255,255,0.1);
+
+        backdrop-filter: blur(10px);
+    }
+
+    .time-box strong {
+        display: block;
+
+        font-size: 1.8rem;
+
+        color: #ff79a7;
+    }
+
+    .time-box span {
+        font-size: 0.7rem;
+
+        color: #999;
+
+        text-transform: uppercase;
+    }
+
+
+    /* =====================================
+       INTRO BUTTON
+    ===================================== */
+
+    .open-button {
+
+        margin-top: 15px;
+
+        padding: 16px 35px;
+
+        border: none;
+
+        border-radius: 50px;
+
+        background:
+            linear-gradient(
+                135deg,
+                #ff4f8b,
+                #b95cff
+            );
+
+        color: white;
+
+        font-size: 1rem;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 10px 40px
+            rgba(255,70,130,0.3);
+
+        transition: 0.3s;
+
+        animation:
+            introFade
+            4s
+            ease;
+    }
+
+    .open-button:hover {
+
+        transform:
+            translateY(-4px)
+            scale(1.03);
+
+        box-shadow:
+            0 15px 50px
+            rgba(255,70,130,0.5);
+    }
+
+
+    /* =====================================
+       MAIN WEBSITE
+    ===================================== */
+
+    #website {
+
+        opacity: 0;
+
+        transition:
+            opacity 1.5s ease;
+
+        pointer-events: none;
+    }
+
+    #website.visible {
+
+        opacity: 1;
+
+        pointer-events: auto;
+    }
+
+
+    /* =====================================
+       HERO
+    ===================================== */
+
+    .hero {
+
+        min-height: 100vh;
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        align-items: center;
+
+        text-align: center;
+
+        padding: 30px;
+    }
+
+    .small-text {
+
+        color: #ff7ca8;
+
+        font-size: 0.9rem;
+
+        letter-spacing: 4px;
+
+        text-transform: uppercase;
+
+        margin-bottom: 20px;
+    }
+
+    .hero h1 {
+
+        font-size:
+            clamp(3rem, 8vw, 7rem);
+
+        line-height: 1.35;
+
+        margin-bottom: 25px;
+
+        background:
+            linear-gradient(
+                90deg,
+                #ff6b9d,
+                #ffb1ca,
+                #c47cff
+            );
+
+        -webkit-background-clip: text;
+
+        color: transparent;
+    }
+
+    .heart {
+
+        font-size: 5rem;
+
+        margin: 30px 0;
+
+        animation:
+            heartbeat
+            1.5s
+            infinite;
+    }
+
+    .hero p {
+
+        max-width: 650px;
+
+        color: #d0d0d8;
+
+        font-size: 1.2rem;
+
+        line-height: 1.7;
+    }
+
+
+    /* =====================================
+       SECTIONS
+    ===================================== */
+
+    section {
+
+        min-height: 80vh;
+
+        padding:
+            100px
+            20px;
+
+        max-width: 1100px;
+
+        margin: auto;
+    }
+
+    .section-title {
+
+        text-align: center;
+
+        font-size: 2.5rem;
+
+        margin-bottom: 60px;
+    }
+
+    .section-title span {
+
+        color: #ff6b9d;
+    }
+
+
+    /* =====================================
+       LETTER
+    ===================================== */
+
+    .letter {
+
+        max-width: 750px;
+
+        margin: auto;
+
+        padding: 45px;
+
+        border-radius: 25px;
+
+        background:
+            rgba(255,255,255,0.04);
+
+        border:
+            1px solid
+            rgba(255,255,255,0.08);
+
+        box-shadow:
+            0 20px 60px
+            rgba(0,0,0,0.3);
+    }
+
+    .letter p {
+
+        color: #ddd;
+
+        font-size: 1.1rem;
+
+        line-height: 2;
+
+        margin-bottom: 20px;
+    }
+
+    .signature {
+
+        color: #ff78a7;
+
+        font-size: 1.5rem;
+
+        text-align: right;
+
+        margin-top: 35px;
+    }
+
+
+    /* =====================================
+       FOTO GALERIE
+    ===================================== */
+
+    .gallery {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(
+                auto-fit,
+                minmax(250px, 1fr)
+            );
+
+        gap: 25px;
+    }
+
+
+    .photo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        max-width: 500px;
+
+        margin: 0 auto 40px auto;
+    }
+
+    .photo img {
+        width: 100%;
+        height: auto;
+
+        display: block;
+
+        object-fit: contain;
+
+        border-radius: 18px;
+
+        box-shadow:
+            0 15px 40px rgba(0, 0, 0, 0.35);
+    }
+
+
+    .photo-note {
+        background: rgba(255, 255, 255, 0.95);
+        color: #333;
+        padding: 12px 18px;
+        margin-bottom: 12px;
+        border-radius: 12px;
+
+        font-size: 1rem;
+        font-style: italic;
+        text-align: center;
+
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+    }
+
+
+    .photo:hover {
+
+        transform:
+            translateY(-8px)
+            rotate(1deg);
+    }
+
+   
+    /* =====================================
+       GESCHENK
+    ===================================== */
+
+    .gift-section {
+
+        text-align: center;
+    }
+
+    .gift {
+
+        font-size: 9rem;
+
+        cursor: pointer;
+
+        display: inline-block;
+
+        margin: 30px;
+
+        transition: 0.4s;
+    }
+
+    .gift:hover {
+
+        transform:
+            scale(1.1)
+            rotate(-5deg);
+    }
+
+    .surprise {
+
+        display: none;
+
+        max-width: 700px;
+
+        margin: 40px auto 0;
+
+        padding: 40px;
+
+        border-radius: 25px;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(255,70,130,0.12),
+                rgba(160,70,255,0.12)
+            );
+
+        border:
+            1px solid
+            rgba(255,255,255,0.1);
+
+        animation:
+            surpriseIn
+            1s
+            ease;
+    }
+
+    .surprise h3 {
+
+        font-size: 2.5rem;
+
+        color: #ff78a7;
+
+        margin-bottom: 20px;
+    }
+
+    .surprise p {
+
+        color: #ddd;
+
+        line-height: 1.8;
+
+        font-size: 1.1rem;
+
+        margin-bottom: 15px;
+    }
+
+
+    /* =====================================
+       MUSIC BUTTON
+    ===================================== */
+
+    .music-button {
+
+        position: fixed;
+
+        right: 25px;
+        bottom: 25px;
+
+        width: 55px;
+        height: 55px;
+
+        border-radius: 50%;
+
+        border: none;
+
+        background: #ff5d96;
+
+        color: white;
+
+        font-size: 1.4rem;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 8px 30px
+            rgba(255,70,130,0.35);
+
+        z-index: 20;
+    }
+
+
+    /* =====================================
+       FOOTER
+    ===================================== */
+
+    footer {
+
+        text-align: center;
+
+        padding: 60px 20px;
+
+        color: #777;
+    }
+
+    footer span {
+
+        color: #ff6b9d;
+    }
+
+
+    /* =====================================
+       KONFETTI
+    ===================================== */
+
+    .confetti {
+
+        position: fixed;
+
+        width: 10px;
+        height: 10px;
+
+        top: -20px;
+
+        z-index: 100;
+
+        animation:
+            fall
+            linear
+            forwards;
+    }
+
+
+    /* =====================================
+       ANIMATIONEN
+    ===================================== */
+
+    @keyframes heartbeat {
+
+        0%,100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.15);
+        }
+    }
+
+    @keyframes introFade {
+
+        from {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes introName {
+
+        from {
+            opacity: 0;
+            transform:
+                scale(0.8)
+                translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform:
+                scale(1)
+                translateY(0);
+        }
+    }
+
+    @keyframes surpriseIn {
+
+        from {
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes fall {
+
+        to {
+
+            transform:
+                translateY(110vh)
+                rotate(720deg);
+        }
+    }
+
+
+    /* =====================================
+       MOBILE
+    ===================================== */
+
+    @media (max-width: 600px) {
+
+        .countdown {
+            gap: 6px;
+        }
+
+        .time-box {
+            min-width: 60px;
+
+            padding:
+                12px 6px;
+        }
+
+        .time-box strong {
+            font-size: 1.3rem;
+        }
+
+        .time-box span {
+            font-size: 0.55rem;
+        }
+
+        section {
+            padding: 70px 20px;
+        }
+
+        .letter {
+            padding: 25px;
+        }
+
+        .gift {
+            font-size: 7rem;
+        }
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<!-- =====================================
+     HINTERGRUND
+===================================== -->
+
+<div class="background"></div>
+
+<div class="stars" id="stars"></div>
+
+<!-- =====================================
+     INTRO
+===================================== -->
+
+<div id="intro">
+
+```
+<div class="intro-content">
+
+    <div class="intro-small">
+        Eine kleine Überraschung für
+    </div>
+
+    <!-- HIER IHREN NAMEN EINTRAGEN -->
+    <div class="intro-name">
+        Tanja ❤️
+    </div>
+
+    <div class="intro-message">
+
+        Heute geht es nur um dich.
+
+        <br>
+
+        Und ich habe etwas für dich vorbereitet...
+
+    </div>
+
+    <div class="intro-heart">
+        ❤️
+    </div>
+
+
+    <!-- COUNTDOWN -->
+
+    <div class="countdown">
+
+        <div class="time-box">
+            <strong id="days">00</strong>
+            <span>Tage</span>
+        </div>
+
+        <div class="time-box">
+            <strong id="hours">00</strong>
+            <span>Stunden</span>
+        </div>
+
+        <div class="time-box">
+            <strong id="minutes">00</strong>
+            <span>Minuten</span>
+        </div>
+
+        <div class="time-box">
+            <strong id="seconds">00</strong>
+            <span>Sekunden</span>
+        </div>
+
+    </div>
+
+
+    <button
+       
+        class="open-button" 
+       id="openButton" 
+       onclick="openWebsite()" 
+       style="display: none;"> 
+       🎁 Überraschung öffnen
+
+    </button>
+
+</div>
+```
+
+</div>
+
+<!-- =====================================
+     HAUPTSEITE
+===================================== -->
+
+<div id="website">
+
+```
+<!-- HERO -->
+
+<div class="hero">
+
+    <div class="small-text">
+        Heute ist dein besonderer Tag ❤️
+    </div>
+
+    <h1>
+        Alles Gute zum Geburtstag
+    </h1>
+
+    <div class="heart">
+        ❤️
+    </div>
+
+    <p>
+
+        Ich wollte dir dieses Jahr
+        etwas schenken, das nicht einfach
+        irgendwann im Schrank landet.
+
+        <br><br>
+
+        Etwas, das nur für dich ist.
+
+    </p>
+
+</div>
+
+
+<!-- =================================
+     BRIEF
+================================== -->
+
+<section id="letter">
+
+    <h2 class="section-title">
+        Ein paar Worte <span>für dich</span>
+    </h2>
+
+
+    <div class="letter">
+
+        <p>
+            Meine Liebe,
+        </p>
+
+        <p>
+
+            heute möchte ich dir einfach sagen,
+            wie unglaublich froh ich bin,
+            dich in meinem Leben zu haben.
+
+        </p>
+
+        <p>
+
+            Du bist für mich nicht einfach
+            irgendein Mensch.
+
+            Du bist jemand, mit dem ich lachen,
+            reden, träumen und einfach ich selbst
+            sein kann.
+
+        </p>
+
+        <p>
+
+            Ich hoffe, dass du heute genauso viel
+            Freude bekommst, wie du mir jeden
+            einzelnen Tag schenkst.
+
+        </p>
+
+        <p>
+
+            Danke, dass es dich gibt.
+
+            Danke für all die schönen Momente,
+            die wir schon miteinander erlebt haben.
+
+        </p>
+
+        <p>
+
+            Und ich freue mich auf alles,
+            was noch vor uns liegt. ❤️
+
+        </p>
+
+        <div class="signature">
+
+            In Liebe,<br>
+
+            Dein Kubi ❤️
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =================================
+     FOTOS
+================================== -->
+
+<section>
+
+    <h2 class="section-title">
+        Unsere <span>Erinnerungen</span> 📸
+    </h2>
+
+
+    <div class="gallery">
+
+        <div class="photo">
+            <div class="photo-note">
+                Irgendwo im Ersten in einer crack Ecke
+            </div>
+            <img src="bilder/foto1.JPEG" alt="Unsere Erinnerung">
+        </div>
+
+        <div class="photo">
+            <div class="photo-note">
+                Unser erster gemeinsamer Urlaub iwo am Arsch von Österreich
+            </div>
+            <img src="bilder/foto2.JPEG" alt="Unsere Erinnerung">
+        </div>
+
+        <div class="photo">
+           <div class="photo-note">
+              Also über den Treff muss ich glaub ich nicht viel dazu sagen...
+            </div>
+            <img src="bilder/foto3.JPEG" alt="Unsere Erinnerung">
+        </div>
+
+    </div>
+
+
+</section>
+
+
+<!-- =================================
+     GESCHENK
+================================== -->
+
+<section class="gift-section">
+
+    <h2 class="section-title">
+
+        Ich habe noch eine
+        <span>Überraschung</span> 🎁
+
+    </h2>
+
+
+    <p>
+
+        Aber dafür musst du zuerst
+        auf das Geschenk klicken...
+
+    </p>
+
+
+    <div
+        class="gift"
+        id="gift"
+        onclick="openGift()">
+
+        🎁
+
+    </div>
+
+
+    <div
+        class="surprise"
+        id="surprise">
+
+
+        <h3>
+            Überraschung! ❤️
+        </h3>
+
+
+        <p>
+
+            Wenn du das hier gerade liest,
+            hast du dein Geschenk geöffnet. 😌
+
+        </p>
+
+
+        <p>
+
+            Aber eigentlich ist das größte
+            Geschenk, dass wir uns haben.
+
+        </p>
+
+        <p>
+
+            Chill das ist nicht das einzige Geschenk, 
+            heul nicht gleich rum.
+
+        </p>
+
+        <p>
+
+            Ich liebe dich und wünsche dir
+            den schönsten Geburtstag überhaupt. ❤️
+
+        </p>
+
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+    Gemacht mit ganz viel
+    <span>Liebe ❤️</span>
+
+</footer>
+```
+
+</div>
+
+<!-- =====================================
+     MUSIK
+===================================== -->
+
+<button
+ class="music-button"
+ onclick="toggleMusic()"
+ id="musicButton">
+
+
+🎵
+
+
+</button>
+
+<audio id="music" loop>
+
+
+<source
+    src="musik/song.mp3"
+    type="audio/mpeg">
+
+
+</audio>
+
+<script>
+
+
+/* =====================================
+   EINSTELLUNGEN
+===================================== */
+
+
+/*
+    HIER DAS GEBURTSDATUM EINTRAGEN.
+
+    Beispiel:
+
+    15. September 2026
+
+    wird geschrieben als:
+
+    "2026-09-15T00:00:00"
+*/
+
+
+const birthday =
+    new Date("2026-09-14T21:00:00");
+
+
+/* =====================================
+   STERNE
+===================================== */
+
+const stars =
+    document.getElementById("stars");
+
+
+for (let i = 0; i < 160; i++) {
+
+    const star =
+        document.createElement("div");
+
+    star.classList.add("star");
+
+    star.style.left =
+        Math.random() * 100 + "%";
+
+    star.style.top =
+        Math.random() * 100 + "%";
+
+    star.style.setProperty(
+        "--duration",
+        (Math.random() * 3 + 2) + "s"
+    );
+
+    stars.appendChild(star);
+}
+
+
+/* =====================================
+   COUNTDOWN
+===================================== */
+
+function updateCountdown() {
+
+    const now =
+        new Date();
+
+    let difference =
+        birthday - now;
+
+
+    if (difference <= 0) {
+
+        document.getElementById("days")
+            .textContent = "00";
+
+        document.getElementById("hours")
+            .textContent = "00";
+
+        document.getElementById("minutes")
+            .textContent = "00";
+
+        document.getElementById("seconds")
+            .textContent = "00";
+
+        document.getElementById("openButton").style.display = "inline-block";
+
+        return;
+    }
+
+
+    const days =
+        Math.floor(
+            difference /
+            (1000 * 60 * 60 * 24)
+        );
+
+
+    const hours =
+        Math.floor(
+            difference /
+            (1000 * 60 * 60)
+        ) % 24;
+
+
+    const minutes =
+        Math.floor(
+            difference /
+            (1000 * 60)
+        ) % 60;
+
+
+    const seconds =
+        Math.floor(
+            difference /
+            1000
+        ) % 60;
+
+
+    document.getElementById("days")
+        .textContent =
+        String(days).padStart(2, "0");
+
+
+    document.getElementById("hours")
+        .textContent =
+        String(hours).padStart(2, "0");
+
+
+    document.getElementById("minutes")
+        .textContent =
+        String(minutes).padStart(2, "0");
+
+
+    document.getElementById("seconds")
+        .textContent =
+        String(seconds).padStart(2, "0");
+}
+
+
+updateCountdown();
+
+setInterval(
+    updateCountdown,
+    1000
+);
+
+
+/* =====================================
+   HAUPTSEITE ÖFFNEN
+===================================== */
+
+function openWebsite() {
+
+    createConfetti();
+
+    const intro =
+        document.getElementById("intro");
+
+    const website =
+        document.getElementById("website");
+
+
+    intro.classList.add("hidden");
+
+    website.classList.add("visible");
+
+
+    setTimeout(() => {
+
+        document.body.style.overflow =
+            "auto";
+
+    }, 1000);
+}
+
+
+/* =====================================
+   GESCHENK
+===================================== */
+
+function openGift() {
+
+    const gift =
+        document.getElementById("gift");
+
+    const surprise =
+        document.getElementById("surprise");
+
+
+    gift.innerHTML =
+        "💝";
+
+
+    surprise.style.display =
+        "block";
+
+
+    createConfetti();
+
+
+    setTimeout(() => {
+
+        surprise.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    }, 300);
+}
+
+
+/* =====================================
+   KONFETTI
+===================================== */
+
+function createConfetti() {
+
+    for (let i = 0; i < 120; i++) {
+
+        const confetti =
+            document.createElement("div");
+
+
+        confetti.classList.add(
+            "confetti"
+        );
+
+
+        confetti.style.left =
+            Math.random() * 100 + "vw";
+
+
+        confetti.style.animationDuration =
+            (Math.random() * 3 + 2) + "s";
+
+
+        confetti.style.background =
+            `hsl(
+                ${Math.random() * 360},
+                80%,
+                65%
+            )`;
+
+
+        document.body.appendChild(
+            confetti
+        );
+
+
+        setTimeout(() => {
+
+            confetti.remove();
+
+        }, 5000);
+
+    }
+}
+
+
+/* =====================================
+   MUSIK
+===================================== */
+
+const music =
+    document.getElementById("music");
+
+const musicButton =
+    document.getElementById("musicButton");
+
+
+let playing = false;
+
+
+function toggleMusic() {
+
+    if (playing) {
+
+        music.pause();
+
+        musicButton.innerHTML =
+            "🎵";
+
+        playing = false;
+
+    } else {
+
+        music.play()
+            .then(() => {
+
+                musicButton.innerHTML =
+                    "⏸️";
+
+                playing = true;
+
+            })
+            .catch(() => {
+
+                alert(
+                    "Die Musik konnte nicht gestartet werden."
+                );
+
+            });
+
+    }
+}
+
+
+</script>
+
+</body>
+</html>
